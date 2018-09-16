@@ -1,21 +1,27 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package simulated_annealing;
 
 /**
- *
- * @author bastomy
+ * @author Bastomy 
+ * ID       : 1301178418 
+ * Class    : IF-40-GAB05 
  */
+
 public class Simulated_Annealing {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        // TODO code application logic here
+        Simulated_Annealing run = new Simulated_Annealing();
+        System.out.println(run.theFunction(0.1, 0.1));
     }
-    
+
+    private double theFunction(double x1, double x2) {
+        double value, sin, cos, exp, sqrt;
+
+        sin = Math.sin(x1);
+        cos = Math.cos(x2);
+        sqrt = Math.sqrt(Math.pow(x1, 2) + Math.pow(x2, 2)) / Math.PI;
+        value = - Math.abs(sin * cos * Math.exp(Math.abs(1 - sqrt)));
+
+        return value;
+    }
+
 }
