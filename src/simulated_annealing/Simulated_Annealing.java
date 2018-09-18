@@ -33,11 +33,11 @@ public class Simulated_Annealing {
         data.setX2(10);
 
         data.setE0(theFunction(data.getX1(), data.getX2()));
-        data.setTemperature(200);
+        data.setTemperature(197);
         bsf.add(new BSF(data.getX1(), data.getX2()));
         data.seteCurrent(data.getE0());
 
-        for (int i = data.getTemperature(); i >= 0; i--) {
+        for (int i = data.getTemperature(); i > 0; i--) {
             data.setX1(data.getX1() + 0.01);
             data.setX2(data.getX2() - 0.1);
             data.seteNew(theFunction(data.getX1(), data.getX2()));
