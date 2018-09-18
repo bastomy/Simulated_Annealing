@@ -1,13 +1,20 @@
 package simulated_annealing;
 
+import java.util.ArrayList;
+
 /**
  * @author Bastomy ID : 1301178418 Class : IF-40-GAB05
  */
 public class Simulated_Annealing {
 
-    public static void main(String[] args) {
+    public Data data = new Data();
+    ArrayList<BSF> bsf = new ArrayList<>();
+
+    public static void main(String[] args) throws InterruptedException {
         Simulated_Annealing run = new Simulated_Annealing();
-        run.mainFunction();
+        run.startFunction();
+//        System.out.println(run.theFunction(-5.1, 5));
+
     }
 
     private double theFunction(double x1, double x2) {
@@ -20,37 +27,44 @@ public class Simulated_Annealing {
 
         return value;
     }
+    
+    public void startFunction() throws InterruptedException {
+        data.setX1(-10);
+        data.setX2(-10);
 
-    private void mainFunction() {
-        double e0, eCurrent, eNew, deltaE, p, random;
-        double bfs1 = 0, bfs2 = 0;   //Best So Far
-        int temp = 2000;    //Temperature 
-        double x1 = -10;    // initial value
-        double x2 = -10;    // initial value
+        data.setE0(theFunction(data.getX1(), data.getX2()));
+        data.setTemperature(200);
+        bsf.add(new BSF(data.getX1(), data.getX2()));
+        data.seteCurrent(data.getE0());
 
-        e0 = theFunction(x1, x2);
-        eCurrent = e0;
-        while (temp != 0) {
-            x1 = x1 + 0.01;
-            x2 = x2 + 0.01;
-            eNew = theFunction(x1, x2);
-            deltaE = eNew - eCurrent;
-            if (deltaE < 0) {
-                eCurrent = eNew;
-                bfs1 = x1;
-                bfs2 = x2;
+        for (int i = data.getTemperature(); i >= 0; i--) {
+            data.setX1(data.getX1() + 0.1);
+            data.setX2(data.getX2() + 0.1);
+            data.seteNew(theFunction(data.getX1(), data.getX2()));
+
+            data.setDeltaE(data.geteNew() - data.geteCurrent());
+            if (data.getDeltaE() < 0) {
+                data.seteCurrent(data.geteNew());
+                bsf.clear();
+                bsf.add(new BSF(data.getX1(), data.getX2()));
             } else {
-                p = Math.pow(Math.E, -deltaE / temp);
-                random = Math.random();
-                if (random < p) {
-                    eCurrent = eNew;
+                data.setP(Math.pow(Math.E, -data.getDeltaE() / i));
+                data.setRandom(Math.random());
+                if (data.getRandom() < data.getP()) {
+                    data.seteCurrent(data.geteNew());
                 }
             }
-            temp--;
+            System.out.println("Temp : " + i);
+            System.out.println("x1 :" + bsf.get(0).getX1());
+            System.out.println("x2 :" + bsf.get(0).getX2());
+            System.out.println("nilai : " + data.geteCurrent());
+            Thread.sleep(500);
         }
-        System.out.println("X1 " + bfs1);
-        System.out.println("X2 " + bfs2);
-        System.out.println("Hasil " + eCurrent);
+        System.out.println("BSF");
+        System.out.println("x1 :" + bsf.get(0).getX1());
+        System.out.println("x2 :" + bsf.get(0).getX2());
+        System.out.println("nilai : " + data.geteCurrent());
+
     }
 
 }
