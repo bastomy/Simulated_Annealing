@@ -27,10 +27,10 @@ public class Simulated_Annealing {
 
         return value;
     }
-    
+
     public void startFunction() throws InterruptedException {
         data.setX1(-10);
-        data.setX2(-10);
+        data.setX2(10);
 
         data.setE0(theFunction(data.getX1(), data.getX2()));
         data.setTemperature(200);
@@ -38,10 +38,9 @@ public class Simulated_Annealing {
         data.seteCurrent(data.getE0());
 
         for (int i = data.getTemperature(); i >= 0; i--) {
-            data.setX1(data.getX1() + 0.1);
-            data.setX2(data.getX2() + 0.1);
+            data.setX1(data.getX1() + 0.01);
+            data.setX2(data.getX2() - 0.1);
             data.seteNew(theFunction(data.getX1(), data.getX2()));
-
             data.setDeltaE(data.geteNew() - data.geteCurrent());
             if (data.getDeltaE() < 0) {
                 data.seteCurrent(data.geteNew());
@@ -54,11 +53,6 @@ public class Simulated_Annealing {
                     data.seteCurrent(data.geteNew());
                 }
             }
-            System.out.println("Temp : " + i);
-            System.out.println("x1 :" + bsf.get(0).getX1());
-            System.out.println("x2 :" + bsf.get(0).getX2());
-            System.out.println("nilai : " + data.geteCurrent());
-            Thread.sleep(500);
         }
         System.out.println("BSF");
         System.out.println("x1 :" + bsf.get(0).getX1());
