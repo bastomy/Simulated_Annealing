@@ -3,7 +3,9 @@ package simulated_annealing;
 import java.util.ArrayList;
 
 /**
- * @author Bastomy ID : 1301178418 Class : IF-40-GAB05
+ * @author Bastomy 
+ * ID : 1301178418 
+ * Class : IF-40-GAB05
  */
 public class Simulated_Annealing {
 
@@ -13,13 +15,11 @@ public class Simulated_Annealing {
     public static void main(String[] args) throws InterruptedException {
         Simulated_Annealing run = new Simulated_Annealing();
         run.startFunction();
-//        System.out.println(run.theFunction(-5.1, 5));
 
     }
 
     private double theFunction(double x1, double x2) {
         double value, sin, cos, exp, sqrt;
-
         sin = Math.sin(x1);
         cos = Math.cos(x2);
         sqrt = Math.sqrt(Math.pow(x1, 2) + Math.pow(x2, 2)) / Math.PI;
@@ -30,16 +30,26 @@ public class Simulated_Annealing {
 
     public void startFunction() throws InterruptedException {
         data.setX1(-10);
-        data.setX2(10);
+        data.setX2(-10);
 
         data.setE0(theFunction(data.getX1(), data.getX2()));
         data.setTemperature(197);
         bsf.add(new BSF(data.getX1(), data.getX2()));
         data.seteCurrent(data.getE0());
 
-        for (int i = data.getTemperature(); i > 0; i--) {
+        for (int i = data.getTemperature(); i >= 0; i--) {
             data.setX1(data.getX1() + 0.01);
-            data.setX2(data.getX2() - 0.1);
+            data.setX2(data.getX2() + 0.1);
+            if (data.getX1()>10.0) {
+                data.setX1(10.0);
+            }else if(data.getX2()>10.0){
+                data.setX2(10.0);
+            }else if(data.getX1()< -10.0){
+                data.setX1(-10.0);
+            }else if(data.getX2()<-10.0){
+                data.setX2(-10.0);
+            }
+            
             data.seteNew(theFunction(data.getX1(), data.getX2()));
             data.setDeltaE(data.geteNew() - data.geteCurrent());
             if (data.getDeltaE() < 0) {
